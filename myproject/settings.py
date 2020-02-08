@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 from decouple import config,Csv
+import django_heroku
 import dj_database_url
 import os
 
@@ -82,9 +83,10 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default':dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
+      'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 
@@ -137,3 +139,6 @@ EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = 'login'
 
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
